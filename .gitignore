@@ -1,3 +1,5 @@
+.idea/*
+
 *.egg
 *.pyc
 .coverage

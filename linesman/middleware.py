@@ -22,7 +22,7 @@ from tempfile import gettempdir
 from PIL import Image
 import networkx as nx
 from mako.lookup import TemplateLookup
-from paste.urlparser import StaticURLParser
+from pyramid.config import Configurator
 from pkg_resources import resource_filename
 from webob import Request, Response
 from webob.exc import HTTPNotFound
@@ -39,6 +39,12 @@ TEMPLATES_DIR = resource_filename("linesman", "templates")
 ENABLED_FLAG_FILE = 'linesman-enabled'
 
 CUTOFF_TIME_UNITS = 1e9  # Nanoseconds per second
+
+
+def StaticURLParser(path):
+    config = Configurator()
+    config.add_static_view('', path)
+    return config.make_wsgi_app()
 
 
 class ProfilingMiddleware(object):

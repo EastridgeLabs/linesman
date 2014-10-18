@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License along
 # with linesman.  If not, see <http://www.gnu.org/licenses/>.
 #
-import cPickle
+import pickle
 import logging
 import sqlite3
 import time
@@ -29,7 +29,7 @@ except ImportError:
     from ordereddict import OrderedDict
 
 
-sqlite3.register_converter("pickle", cPickle.loads)
+sqlite3.register_converter("pickle", pickle.loads)
 log = logging.getLogger(__name__)
 
 
@@ -82,7 +82,7 @@ class SqliteBackend(Backend):
             timestamp = time.mktime(session.timestamp.timetuple())
         else:
             timestamp = None
-        pickled_session = sqlite3.Binary(cPickle.dumps(session, -1))
+        pickled_session = sqlite3.Binary(pickle.dumps(session, -1))
 
         query = "INSERT INTO sessions VALUES (?, ?, ?);"
         params = (uuid, timestamp, pickled_session)

@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License along
 # with linesman.  If not, see <http://www.gnu.org/licenses/>.
 #
-import cPickle
+import pickle
 import logging
 
 from linesman.backends.base import Backend
@@ -45,9 +45,9 @@ class PickleBackend(Backend):
         Writes the session history to disk, in pickled form.
         """
         with open(self.filename, "w+b") as pickle_fd:
-            cPickle.dump(self._session_history,
+            pickle.dump(self._session_history,
                         pickle_fd,
-                        cPickle.HIGHEST_PROTOCOL)
+                        pickle.HIGHEST_PROTOCOL)
 
     def setup(self):
         """
@@ -55,7 +55,7 @@ class PickleBackend(Backend):
         """
         try:
             with open(self.filename, "rb") as pickle_fd:
-                self._session_history = cPickle.load(pickle_fd)
+                self._session_history = pickle.load(pickle_fd)
         except IOError:
             log.debug(
                 "`%s' does not exist; creating new dictionary.",
